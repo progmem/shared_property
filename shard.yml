@@ -1,0 +1,9 @@
+name: shared_property
+version: 0.1.0
+
+authors:
+  - Jason DeLeon <jason@progmem.space>
+
+crystal: 0.36.1
+
+license: MIT
