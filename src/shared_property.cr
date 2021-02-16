@@ -1,6 +1,6 @@
 module SharedProperty
   VERSION = "0.1.0"
-
+  
   # A QρValue exists solely as a wrapper class for a given type.
   # Classes can be passed as references.
   private class QρValue(K)
@@ -39,19 +39,23 @@ module SharedProperty
     def references_{{ var.name.id }}_from(src)
       if src.responds_to?(:{{ var.name.id }}_reference)
         @{{ var.name.id }} = src.{{ var.name.id }}_reference
+        return true
       end
-      self
+      false
     end
   end
   
   # Sync all `shared_property`s from src
   def references(src)
+    modified = [] of Symbol
     {% for var in @type.instance_vars %}
       if @{{ var.name.id }}.is_a? QρValue
         if src.responds_to?(:{{ var.name.id }}_reference)
           @{{ var.name.id }} = src.{{ var.name.id }}_reference
+          modified << :{{var.name.id}}
         end
       end
     {% end %}
+    modified
   end
 end
